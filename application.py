@@ -113,9 +113,9 @@ with st.form("App",border=True):
 
         user_query = st.text_input("Enter User Data:", "")
         submitted = st.form_submit_button("Submit")
-        keys = st.sidebar.text_input("Enter Key",type="password")
-        tokens = st.sidebar.slider(label="Tokens",min_value=500,max_value=1500,value=1200)
-        value = st.sidebar.slider(label="Temperature",min_value=0.0,max_value=1.0,value=0.2)
+        keys = st.sidebar.text_input("Enter HF Key",type="password")
+        tokens = st.sidebar.slider(label="Tokens",min_value=500,max_value=1500,value=800)
+        value = st.sidebar.slider(label="Temperature",min_value=0.1,max_value=1.0,value=0.2)
         models = st.sidebar.selectbox(label="Select Model",options=model_list)
         SysPromt = st.sidebar.text_area("System Prompt:","",height=400)
         if submitted:
