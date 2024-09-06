@@ -12,10 +12,10 @@ st.title("Financial Report Generator App")
 
 
 
-def load_model(temp,token,repo_id,HF_key):
+def load_model(temp,token,repo_id,HF_key,topP):
     
     # repo_id="meta-llama/Meta-Llama-3.1-8B-Instruct"
-    llm=HuggingFaceEndpoint(repo_id=repo_id,max_new_tokens=token,temperature=temp, huggingfacehub_api_token=HF_key)
+    llm=HuggingFaceEndpoint(repo_id=repo_id,max_new_tokens=token,temperature=temp, huggingfacehub_api_token=HF_key,top_p=topP)
     return llm
 
 
@@ -98,9 +98,9 @@ def promt_complition(user_question,system_promt1):
     return messages
 
 
-def blog_outline(temp,token,model,query,key,system_promt):
+def blog_outline(temp,token,model,query,key,system_promt,topP):
     # Instantiate LLM model
-    llm = load_model(temp,token,model,HF_key=key)
+    llm = load_model(temp,token,model,HF_key=key,topP=topP)
     promt= promt_complition(query,system_promt)
     data = llm.invoke(promt).split("}")[1]
     response = data
@@ -116,10 +116,11 @@ with st.form("App",border=True):
         keys = st.sidebar.text_input("Enter HF Key",type="password")
         tokens = st.sidebar.slider(label="Tokens",min_value=500,max_value=1500,value=800)
         value = st.sidebar.slider(label="Temperature",min_value=0.1,max_value=1.0,value=0.2)
+        p_value = st.sidebar.slider(label="top_p",min_value=0.1,max_value=1.0,value=0.2)
         models = st.sidebar.selectbox(label="Select Model",options=model_list)
         SysPromt = st.sidebar.text_area("System Prompt:","",height=400)
         if submitted:
-            blog_outline(temp=value,token=tokens,model=models,query=user_query,system_promt=SysPromt,key=keys)
+            blog_outline(temp=value,token=tokens,model=models,query=user_query,system_promt=SysPromt,key=keys,topP=p_value)
 
     except Exception as e:
         raise e    
