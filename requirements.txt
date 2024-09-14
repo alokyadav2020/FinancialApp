@@ -1,3 +1,6 @@
 langchain-huggingface
 huggingface_hub
 langchain
+lxml
+pandas
+bs4
