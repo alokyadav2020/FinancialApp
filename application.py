@@ -2,6 +2,8 @@ import streamlit as st
 from langchain_huggingface import HuggingFaceEndpoint
 from langchain import PromptTemplate, LLMChain
 import json
+import sqlite3
+import pandas as pd
 
 
 st.title("Financial Report Generator App")
@@ -34,9 +36,9 @@ Valuation Methodologies Application:
 
 2. Discounted Cash Flow (DCF): Explanation: Projects future cash flows and discounts them back to present value using a discount rate reflecting the risk-adjusted cost of capital. Example: Estimated Future Cash Flows for 5 years sum to $84,000 (assuming growth and discount rate), Discount Rate = 10%, DCF Valuation = $52,155.
 
-3. Comparable Company Analysis (CCA): Explanation: Evaluates financial ratios and statistics from similar companies to derive a valuation multiple, consider lowest 25 % of population for multiplier. Example: Average PE Ratio of Comparable Firms = 20, Net Profit = $24,000, CCA Valuation = $480,000.
+3. Comparable Company Analysis (CCA): Explanation: Evaluates financial ratios and statistics from similar companies to derive a valuation multiple, consider lowest (25%) of population for multiplier. Example: Average PE Ratio of Comparable Firms = 20, Net Profit = $24,000, CCA Valuation = $480,000.
 
-4. Rule of Thumb Methods: Explanation: Uses industry-specific formulas or averages to estimate business value. Consider lowest 25 % of population for multiplier.Example: Industry Multiplier = 3x Gross Revenue, Gross Revenue = $36,000, Valuation = $108,000.
+4. Rule of Thumb Methods: Explanation: Uses industry-specific formulas or averages to estimate business value. Consider lowest (25%) of population for multiplier.Example: Industry Multiplier = 3x Gross Revenue, Gross Revenue = $36,000, Valuation = $108,000.
 
 5. Earnings Multiplier: Explanation: Multiplies the company's earnings by a factor typical for the industry or market, consider the average multiplier. Example: Earnings Multiplier = 10, Net Profit = $24,000, Valuation = $240,000.
 
@@ -208,13 +210,16 @@ M_4 ='mistralai/Mistral-7B-Instruct-v0.2'
 M_5= 'google/gemma-2-9b-it'
 model_list = [M_1,M_2,M_3,M_4,M_5]
 
-Discount_Rate = f"{15}%"
-PE_Ratio = 15
-Industry_Multiplier = 4
-Earnings_Multiplier = 9
+
+
+
 
 def blog_outline(temp,token,model,hf_key,t_k,t_p,zip_code,business_type,revenue,expenses,ebitda,current_assets,fixed_assets,current_liabilities,long_term_liabilities):
     # Instantiate LLM model
+
+    df_dat = get_data_sql(f'{business_type}')
+
+   
     input_params = {
         "zip_code": zip_code,
         "business_type": business_type,
@@ -225,10 +230,10 @@ def blog_outline(temp,token,model,hf_key,t_k,t_p,zip_code,business_type,revenue,
         "fixed_assets": fixed_assets,
         "current_liabilities": current_liabilities,
         "long_term_liabilities": long_term_liabilities,
-        "Discount_Rate": Discount_Rate,
-        "PE_Ratio" : PE_Ratio,
-        "Industry_Multiplier": Industry_Multiplier,
-        "Earnings_Multiplier" : Earnings_Multiplier
+        "Discount_Rate": df_dat['Cost_of_Capital(Discount_rate)'],
+        "PE_Ratio" : df_dat['Trailing_PE(PE_Ratio)'],
+        "Industry_Multiplier": df_dat['PBV(Industry_multiplier)'],
+        "Earnings_Multiplier" :df_dat['EV/EBITDA(Earning_multiplier)']
     }
     llm = load_model(temp,token,model,HF_key=hf_key,top_k=t_k,top_p=t_p)
     promt= PromptTemplate.from_template(system_promt)
@@ -236,6 +241,17 @@ def blog_outline(temp,token,model,hf_key,t_k,t_p,zip_code,business_type,revenue,
     data = llm_chain.invoke(input_params)
     response = data['text']
     return st.info(response)
+
+
+def get_data_sql(Industry_Name:str) -> pd.DataFrame:
+    conn = sqlite3.connect('BEV_database.db')
+    query = 'SELECT * FROM BEV WHERE Industry_Name = ?'
+    df_from_db = pd.read_sql(sql=query,con= conn,params=(Industry_Name,))
+    conn.close()
+
+    return df_from_db
+
+
 
 
 with st.form("myform"):
