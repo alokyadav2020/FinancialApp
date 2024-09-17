@@ -4,3 +4,4 @@ langchain
 lxml
 pandas
 bs4
+db-sqlite3
