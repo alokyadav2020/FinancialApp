@@ -5,3 +5,4 @@ lxml
 pandas
 bs4
 db-sqlite3
+python-dotenv

@@ -3,6 +3,14 @@ from langchain_huggingface import HuggingFaceEndpoint
 from langchain import PromptTemplate, LLMChain
 import json
 import sqlite3
+import os
+from dotenv import load_dotenv
+
+# Load the .env file
+load_dotenv()
+
+# Access the API key
+api_key = os.getenv('hf_key')
 import pandas as pd
 
 
@@ -24,7 +32,7 @@ system_promt = """
 
 <|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
-You are financial adviser. 
+You are financial adviser. You have to provide financial report based on nput data. 
 
 
 
@@ -32,20 +40,13 @@ START OF Business Estimation Value i.e. BEV CALCULATION--
 
 Valuation Methodologies Application:
 
-1. Method Asset-Based Valuation: Explanation: Calculates the net asset value by subtracting total liabilities from total assets. Example: Total Assets = $5,000, Total Liabilities = $3,000, Asset-Based Valuation = $2,000.
-
-2. Discounted Cash Flow (DCF): Explanation: Projects future cash flows and discounts them back to present value using a discount rate reflecting the risk-adjusted cost of capital. Example: Estimated Future Cash Flows for 5 years sum to $84,000 (assuming growth and discount rate), Discount Rate = 10%, DCF Valuation = $52,155.
-
-3. Comparable Company Analysis (CCA): Explanation: Evaluates financial ratios and statistics from similar companies to derive a valuation multiple, consider lowest (25%) of population for multiplier. Example: Average PE Ratio of Comparable Firms = 20, Net Profit = $24,000, CCA Valuation = $480,000.
-
-4. Rule of Thumb Methods: Explanation: Uses industry-specific formulas or averages to estimate business value. Consider lowest (25%) of population for multiplier.Example: Industry Multiplier = 3x Gross Revenue, Gross Revenue = $36,000, Valuation = $108,000.
-
-5. Earnings Multiplier: Explanation: Multiplies the company's earnings by a factor typical for the industry or market, consider the average multiplier. Example: Earnings Multiplier = 10, Net Profit = $24,000, Valuation = $240,000.
-
-6. Liquidation Value: Explanation: Estimates the amount that could be realized if all assets were sold and liabilities paid off today. Example: Total Asset Liquidation Value = $5,000, Liabilities = $3,000, Liquidation Value = $2,000.
-
-7. Monte Carlo Simulations: Use probabilistic models to simulate a range of possible outcomes based on the variability of input factors like cash flows, discount rates, and growth projections to provide a valuation range rather than a fixed figure. Calculate the Low , Mid and High Range of monte carlo simulations. Comments what Low, Mid and High ranges could means to the given business.
-
+1. Method Asset-Based Valuation: 
+2. Discounted Cash Flow (DCF):
+3. Comparable Company Analysis (CCA): 
+4. Rule of Thumb Methods: Explanation: 
+5. Earnings Multiplier: Explanation:
+6. Liquidation Value: Explanation:
+7. Monte Carlo Simulations: 
 
 END OF Business Estimation Value i.e. BEV CALCULATION--
 
@@ -56,7 +57,12 @@ The business's valuation varies significantly based on the methodology applied:
 
 Consider how local or international political changes could impact the business environment and market stability. Economic Indicators: Include macroeconomic factors such as inflation rates, interest rates, and economic growth rates that could affect the business’s performance. Industry-Specific Trends: Look at growth rates, technological changes, and new regulations affecting the industry. Regulatory Environment: Updates on new laws or regulations that could impact business operations or costs (e.g., environmental regulations, minimum wage increases). Market Competition: Analyze market share, the number of competitors, and their relative size and performance to adjust the valuation accordingly. 
 
-Use this Example as Reference. Do not use data of the example in extual output.
+
+
+
+Use this Example as Reference.
+Try to DISPAY result as given in example.
+Do not use data of the example in extual output.
 
 Example:
 
@@ -67,12 +73,12 @@ BEV for the Retail-CPG <Business Type> business is as follows:
 
 Method 1. Asset-Based Valuation :
 
-   - Formula: Total Assets - Total Liabilities
-   - Calculation: (Current Assets + Fixed Assets) - (Current Liabilities + Long-Term Liabilities)  
-   - Result: (300,000 + 200,000) - (150,000 + 50,000) = $300,000
+                 2023                2022           2021           Final
 
-Explanation:  
-The business has a net asset value of $300,000, representing its liquidation value if all assets were sold and liabilities settled. This method primarily reflects the tangible asset base of the business.
+               1100000             1000000         100000         15000
+
+
+What does this mean to your business: He business has a net asset value of {currency}{Result_Final}, representing its liquidation value if all assets were sold and liabilities settled. This method primarily reflects the tangible asset base of the business.
 
 
 Method 2. Discounted Cash Flow (DCF)
@@ -81,44 +87,68 @@ Method 2. Discounted Cash Flow (DCF)
    - Discount Rate: 10% 
    - Present Value: $844,155
 
-Explanation: 
+What does this mean to your business: 
 Based on the present value of projected future cash flows, the business is valued at $844,155. This approach offers a forward-looking estimate grounded in the company’s expected profitability and the time value of money.
 
 
 Method 3. Comparable Company Analysis (CCA)
 
-   - Average P/E Ratio of Comparable Firms: 20 
-   - Net Profit: $250,000
-   - Valuation: 250,000 * 20 = $5,000,000
+   
+   
+      2023                2022           2021          
+  
+    1100000             1000000         100000        
+  
+    200000              1000000         200000
 
-Explanation: 
+
+What does this mean to your business: 
 The CCA valuation is $5,000,000, reflecting the business's worth based on the average price-to-earnings ratio of similar companies. This method leverages market data from comparable firms to estimate the business's value relative to its peers.
 
 
 Method 4. Rule of Thumb Methods
-   - Industry Multiplier: 3x Gross Revenue
-   - Gross Revenue: $1,200,000
-   - Valuation: 1,200,000 * 3 = $3,600,000
+   
 
-Explanation:
+     2023                2022           2021          
+  
+    1100000             1000000         100000        
+  
+    200000              1000000         20000
+
+   
+
+What does this mean to your business:
 This method provides a valuation of $3,600,000 by applying an industry-specific multiplier to gross revenue. It is a quick estimate often used for benchmarking purposes in specific sectors.
 
 
 Method 5. Earnings Multiplier Method
-   - Earnings Multiplier: 10
-   - Net Profit: $250,000
-   - Valuation: 250,000 * 10 = $2,500,000
+  
 
-Explanation:
+   
+     2023                2022           2021          
+  
+    1100000             1000000         100000        
+  
+    200000              1000000         20000
+
+
+  
+
+What does this mean to your business:
 The earnings multiplier method yields a valuation of $2,500,000, reflecting the business's profitability and earnings potential.   
 
    
 Method 6. Liquidation Value
-   - Total Asset Liquidation Value: $300,000
-   - Liabilities: $150,000
-   - Liquidation Value: $300,000 - 150,000 = $150,000
 
-Explanation: 
+
+     
+       2023                2022           2021          
+    
+      1100000             1000000         100000        
+  
+
+  
+What does this mean to your business: 
 The liquidation value is $150,000, representing the estimated proceeds if all assets were liquidated and liabilities paid. This is the minimum valuation in a worst-case scenario.
 
 
@@ -127,13 +157,14 @@ Method 7. Monte Carlo Simulation Results
    - Mid-Range Valuation: $1,444,155
    - High-Range Valuation: $1,844,155
 
-Explanation:  
+What does this mean to your business:  
 The Monte Carlo simulation suggests that the business’s valuation could range between $1,444,155 and $1,844,155. This probabilistic model captures a spectrum of potential outcomes, factoring in uncertainties around future financial performance.  
 
    
 
    Valuation Summary
 The business's valuation varies significantly based on the methodology applied:
+
 - Rule of Thumb Method: $3,600,000
 - Earnings Multiplier: $2,500,000
 
@@ -147,19 +178,26 @@ The valuation summary shows the estimated business value using various valuation
 <|eot_id|><|start_header_id|>user<|end_header_id|>
 
 Your task is to provide clear and consice Business Estimation Value i.e. BEV CALCULATION and SUMMERY of given financial data.
-- Zip Code: {zip_code},
-- Business Type: {business_type},
-- Revenue: {revenue},
-- Expenses: {expenses},
-- EBITDA: {ebitda}
+- Zip Code: {zipCode}
+- Business Type: {businessType}
+- PE_Ratio : {PE_Ratio}
+- Industry_Multiplier: {Industry_Multiplier}
+- Earnings Multiplier: {Earnings_Multiplier}
 
+             
 
 Display all the points i.e. point # 1 to point # 7. , Valuation Summary, and Disclaimer.
 
 From the given financial inputs and using different valuation methods
 
 1. Asset-Based Valuation:  Provide a simple calculation and explain in one line what it means to the given business. 
-Use this Input Data for calculation--  Current Assets: {current_assets} , Fixed Assets: {fixed_assets}, Current Liabilities: {current_liabilities}, Long-Term Liabilities: {long_term_liabilities}.
+ 
+Use this input data to display result:
+
+  {Year_1}        {Year_2}           {Year_3}           Final
+
+  {Result_1}      {Result_2}         {Result_3}         {Result_Final}
+
 Explanation: Provide a simple explanation in one line what it means to the given business.
 
 2. Discounted Cash Flow (DCF): Provide a simple calculation and explain in one line what it means to the given business.
@@ -167,19 +205,56 @@ Use this Input Data for calculation-- Discount Rate : {Discount_Rate}
 Explanation: Provide a simple explanation in one line what it means to the given business.
 
 3. Comparable Company Analysis (CCA): Provide a simple calculation and explain in one line what it means to the given business.
-Use this Input Data for calculation-- Average P/E Ratio of Comparable Firms: {PE_Ratio}
+Use this input data to display result:
+
+       {Year_1}                         {Year_2}                         {Year_3}                          
+    
+    {Net_Profit_Year_1}              {Net_Profit_Year_2}              {Net_Profit_Year_3}                 
+    
+    {Net_Profit_result_1}            {Net_Profit_result_2}            {Net_Profit_result_3}
+ 
 Explanation: Provide a simple explanation in one line what it means to the given business.
 
 4. Rule of Thumb Methods:  This uses industry-specific revenue multipliers to estimate value.Provide a simple calculation and explain in one line what it means to the given business.
-Use this Input Data for calculation-- Industry Multiplier:{Industry_Multiplier}
+
+Use this input data to display result:
+
+- Industry Multiplier: {Industry_Multiplier}
+
+     {Year_1}                           {Year_2}                        {Year_3} 
+   
+     {Gross_revenu_Year_1}        {Gross_revenu_Year_2}         {Gross_revenu_Year_3}
+   
+     {Gross_revenu_result_1}      {Gross_revenu_result_2}       {Gross_revenu_result_3}
+
 Explanation: Provide a simple explanation in one line what it means to the given business.
 
 5. Earnings Multiplier:  Provide a simple calculation and explain in one line what it means to the given business.
-Use this Input Data for calculation-- Earnings Multiplier:{Earnings_Multiplier}
+
+Use this input data to display result:
+
+ - Earnings Multiplier: {Earnings_Multiplier}
+
+   
+     {Year_1}                       {Year_2}               {Year_3} 
+   
+     {Net_Profit_Year_1}      {Net_Profit_Year_2}    {Net_Profit_Year_3}
+    
+    {Net_earning_result_1}   {Net_earning_result_2}  {Net_earning_result_3}
+
+
 Explanation: Provide a simple explanation in one line what it means to the given business.
 
 6. Liquidation Value: Provide a simple calculation and explain in one line what it means to the given business.
-Use this Input Data for calculation-- Total Asset Liquidation Value:{current_assets},  Liabilities:{current_liabilities}
+
+Use this input data to display result:
+
+          {Year_1}                  {Year_2}               {Year_3}          
+
+       {Liquidation_Value_1}    {Liquidation_Value_2}   {Liquidation_Value_3}        
+
+
+
 Explanation: Provide a simple explanation in one line what it means to the given business.
 
 7. Monte Carlo Simulation Results:
@@ -198,7 +273,9 @@ The valuation summary shows the estimated business value using various valuation
 
 Do not display any other section.
 
-Make sure your summary should be based on above calculation only.
+Try to display for year and results in tabular format as shown in example.
+
+
 
 <|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
@@ -211,36 +288,127 @@ M_5= 'google/gemma-2-9b-it'
 model_list = [M_1,M_2,M_3,M_4,M_5]
 
 
+def method_1(C_A_F_Y,T_A_F_Y,C_L_Y_Y,T_L_F_Y):
+    rt= [(C_A_F_Y + T_A_F_Y ) - (C_L_Y_Y + T_L_F_Y) for C_A_F_Y,T_A_F_Y,C_L_Y_Y,T_L_F_Y in zip(C_A_F_Y,T_A_F_Y,C_L_Y_Y,T_L_F_Y) ]
+ 
+    result_1 = rt[0]
+    result_2  = rt[1]
+    result_3  = rt[2]
+    final_result = result_1*0.5 +    result_2*0.5 + result_3*0.25
+
+    return result_1,result_2,result_3,final_result 
+
+def method_3(revenue,expense,PE_Ratio):
+    net_profits = [revenue - expense for revenue, expense in zip(revenue, expense)]
+    result_net = [i*PE_Ratio for i in net_profits]
+
+    return net_profits,result_net
+
+
+def method_4(revenues,Industry_Multiplier):
+    gross_rev = [i*Industry_Multiplier for i in revenues]
+
+    return gross_rev
+
+
+def method_5(revenue,expense,Earnings_Multiplier):
+    
+    net_profits = [revenue - expense for revenue, expense in zip(revenue, expense)]
+    result_net = [i*Earnings_Multiplier for i in net_profits]
+
+    return result_net
+    
+
+def method_6(current_asset,current_liabilites):
+    net_profits = [current_asset - current_liabilites for current_asset, current_liabilites in zip(current_asset, current_liabilites)]
+    return net_profits
+    
 
 
 
-def blog_outline(temp,token,model,hf_key,t_k,t_p,zip_code,business_type,revenue,expenses,ebitda,current_assets,fixed_assets,current_liabilities,long_term_liabilities):
+
+
+def blog_outline(temp,token,model,hf_key,t_k,t_p,
+                 zipCode,businessType,currency,
+                 financial_year_1,financial_year_2,financial_year_3,
+                 current_assets_financial_year,
+                 total_assets_financial_year,
+                 current_liabilities_financial_year,
+                 total_liabilities_financial_year,
+                 revenues,
+                 expenses,
+                 
+                 ):
+   df_dat = get_data_sql(f'{businessType}')
     # Instantiate LLM model
+   Result_1,Result_2,Result_3,Result_Final = method_1(current_assets_financial_year,total_assets_financial_year,current_liabilities_financial_year,total_liabilities_financial_year)
+   Net_Profit_Year,Net_Profit_result = method_3(revenues,expenses,df_dat['Trailing_PE(PE_Ratio)'])
+   Net_Profit_Year_1 =Net_Profit_Year[0]
+   Net_Profit_Year_2 =Net_Profit_Year[1]
+   Net_Profit_Year_3 =Net_Profit_Year[2]
+   Net_Profit_result_1 = Net_Profit_result[0]
+   Net_Profit_result_2 = Net_Profit_result[1]
+   Net_Profit_result_3 = Net_Profit_result[2]
+   Gross_revenu_result =method_4(revenues,df_dat['PBV(Industry_multiplier)'])
+   Gross_revenu_Year_1 = revenues[0]
+   Gross_revenu_Year_2 = revenues[1]
+   Gross_revenu_Year_3 = revenues[2]
+   Gross_revenu_result_1 = Gross_revenu_result[0]
+   Gross_revenu_result_2 = Gross_revenu_result[1]
+   Gross_revenu_result_3 = Gross_revenu_result[2]
+   Net_earning_result= method_5(revenues,expenses,df_dat['EV/EBITDA(Earning_multiplier)'])
+   Net_earning_result_1 = Net_earning_result[0]
+   Net_earning_result_2 = Net_earning_result[1] 
+   Net_earning_result_3 = Net_earning_result[2]  
+   Liquidation_Value  = method_6(current_assets_financial_year,current_liabilities_financial_year)
+   Liquidation_Value_1 = Liquidation_Value[0]
+   Liquidation_Value_2 = Liquidation_Value[1]
+   Liquidation_Value_3 = Liquidation_Value[2]
+   input_params = {
+               "zipCode" : zipCode,
+         "businessType" : businessType,
+         "currency" : currency,
+         "Year_1" : financial_year_1,
+         "Year_2" : financial_year_2,
+         "Year_3" : financial_year_3,
+         "Result_1" : Result_1,
+         "Result_2" : Result_2,
+         "Result_3" : Result_3,
+         "Result_Final" : Result_Final,
+         "Net_Profit_Year_1" : Net_Profit_Year_1,
+         "Net_Profit_Year_2" : Net_Profit_Year_2,
+         "Net_Profit_Year_3" : Net_Profit_Year_3,
+         "Net_Profit_result_1" : Net_Profit_result_1,
+         "Net_Profit_result_2" : Net_Profit_result_2,  
+         "Net_Profit_result_3" : Net_Profit_result_3,  
+         "Gross_revenu_Year_1" : Gross_revenu_Year_1,
+         "Gross_revenu_Year_2" : Gross_revenu_Year_2,
+         "Gross_revenu_Year_3" : Gross_revenu_Year_3,
+         "Gross_revenu_result_1" : Gross_revenu_result_1,
+         "Gross_revenu_result_2" : Gross_revenu_result_2,
+         "Gross_revenu_result_3" : Gross_revenu_result_3,
+         "Net_Profit_Year_1" : Net_Profit_Year_1,
+         "Net_Profit_Year_2" : Net_Profit_Year_2,
+         "Net_Profit_Year_3" : Net_Profit_Year_3,
+         "Net_earning_result_1" : Net_earning_result_1,
+         "Net_earning_result_2" : Net_earning_result_2,
+         "Net_earning_result_3" : Net_earning_result_3,
+         "Liquidation_Value_1" : Liquidation_Value_1,
+         "Liquidation_Value_2" : Liquidation_Value_2,
+         "Liquidation_Value_3" : Liquidation_Value_3,
 
-    df_dat = get_data_sql(f'{business_type}')
-
-   
-    input_params = {
-        "zip_code": zip_code,
-        "business_type": business_type,
-        "revenue": revenue,
-        "expenses": expenses,
-        "ebitda": ebitda,
-        "current_assets": current_assets,
-        "fixed_assets": fixed_assets,
-        "current_liabilities": current_liabilities,
-        "long_term_liabilities": long_term_liabilities,
+         
         "Discount_Rate": df_dat['Cost_of_Capital(Discount_rate)'],
         "PE_Ratio" : df_dat['Trailing_PE(PE_Ratio)'],
         "Industry_Multiplier": df_dat['PBV(Industry_multiplier)'],
         "Earnings_Multiplier" :df_dat['EV/EBITDA(Earning_multiplier)']
     }
-    llm = load_model(temp,token,model,HF_key=hf_key,top_k=t_k,top_p=t_p)
-    promt= PromptTemplate.from_template(system_promt)
-    llm_chain=LLMChain(llm=llm,prompt=promt)
-    data = llm_chain.invoke(input_params)
-    response = data['text']
-    return st.info(response)
+   llm = load_model(temp,token,model,HF_key=hf_key,top_k=t_k,top_p=t_p)
+   promt= PromptTemplate.from_template(system_promt)
+   llm_chain=LLMChain(llm=llm,prompt=promt)
+   data = llm_chain.invoke(input_params)
+   response = data['text']
+   return st.info(response)
 
 
 def get_data_sql(Industry_Name:str) -> pd.DataFrame:
@@ -256,35 +424,44 @@ def get_data_sql(Industry_Name:str) -> pd.DataFrame:
 
 with st.form("myform"):
     try:
-        hf_key = st.sidebar.text_input("HF Key:", "",type="password")
+      #   hf_key = st.sidebar.text_input("HF Key:", "",type="password")
+        hf_key = api_key
 
         topic_text = st.text_input("Enter prompt:", "")
         
         
         submitted = st.form_submit_button("Submit")
-        tokens = st.sidebar.slider(label="Tokens",min_value=500,max_value=2500,value=1200)
+        tokens = st.sidebar.slider(label="Tokens",min_value=500,max_value=6000,value=4000)
         value = st.sidebar.slider(label="Temperature",min_value=0.0,max_value=1.0,value=0.1)
         t_k_value = st.sidebar.slider(label="top_k",min_value=1,max_value=15,value=10)
         t_p_value = st.sidebar.slider(label="top_p",min_value=0.0,max_value=1.0,value=0.25)
         models = st.sidebar.selectbox(label="Select Model",options=model_list)
         if submitted:
-            data_json = json.loads(f"""{topic_text}""")
-            print(data_json)
-            blog_outline(zip_code = data_json['zipCode'],
-                        business_type = data_json['businessType'],
-                        revenue = data_json['financialMetrics']['revenue'],
-                        expenses = data_json['financialMetrics']['expenses'],
-                        ebitda = data_json['financialMetrics']['ebitda'],
-                        current_assets = data_json['financialMetrics']['assets']['current'],
-                        fixed_assets = data_json['financialMetrics']['assets']['fixed'],
-                        current_liabilities = data_json['financialMetrics']['liabilities']['current'],
-                        long_term_liabilities = data_json['financialMetrics']['liabilities']['longTerm'],
-                         temp=value,
-                         token=tokens,
-                         model=models,
-                         hf_key=hf_key,
-                         t_k=t_k_value,
-                         t_p=t_p_value
+            jdata = json.loads(f"""{topic_text}""")
+            print(jdata)
+            blog_outline(
+                        temp=value,
+                        token=tokens,
+                        model=models,
+                        hf_key=hf_key,
+                        t_k=t_k_value,
+                        t_p=t_p_value,
+                        zipCode = jdata['zipCode'],
+                        businessType = jdata['businessType'],
+                        currency = jdata['currency'],
+                        financial_year_1 = jdata['financialMetrics']['years'][0],
+                        financial_year_2 = jdata['financialMetrics']['years'][1],
+                        financial_year_3 = jdata['financialMetrics']['years'][2],
+                        revenues=jdata['financialMetrics']['revenue'],
+                        expenses=jdata['financialMetrics']['expenses'],
+                       
+                        current_assets_financial_year=jdata['financialMetrics']['assets']['current'],
+                       
+                        total_assets_financial_year= jdata['financialMetrics']['assets']['total'],
+                       
+                        current_liabilities_financial_year= jdata['financialMetrics']['liabilities']['current'],
+                      
+                        total_liabilities_financial_year= jdata['financialMetrics']['liabilities']['total']
                          )
 
     except Exception as e:
