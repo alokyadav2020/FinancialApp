@@ -78,7 +78,7 @@ Method 1. Asset-Based Valuation :
                1100000             1000000         100000         15000
 
 
-What does this mean to your business: He business has a net asset value of $15000, representing its liquidation value if all assets were sold and liabilities settled. This method primarily reflects the tangible asset base of the business.
+Explanetion: He business has a net asset value of $15000, representing its liquidation value if all assets were sold and liabilities settled. This method primarily reflects the tangible asset base of the business.
 
 
 Method 2. Discounted Cash Flow (DCF)
@@ -87,7 +87,7 @@ Method 2. Discounted Cash Flow (DCF)
    - Discount Rate: 10% 
    - Present Value: $844,155
 
-What does this mean to your business: 
+Explanetion:
 Based on the present value of projected future cash flows, the business is valued at $844,155. This approach offers a forward-looking estimate grounded in the company’s expected profitability and the time value of money.
 
 
@@ -102,7 +102,7 @@ Method 3. Comparable Company Analysis (CCA)
     200000              1000000         200000
 
 
-What does this mean to your business: 
+Explanetion:
 The CCA valuation is $5,000,000, reflecting the business's worth based on the average price-to-earnings ratio of similar companies. This method leverages market data from comparable firms to estimate the business's value relative to its peers.
 
 
@@ -117,7 +117,7 @@ Method 4. Rule of Thumb Methods
 
    
 
-What does this mean to your business:
+Explanetion:
 This method provides a valuation of $3,600,000 by applying an industry-specific multiplier to gross revenue. It is a quick estimate often used for benchmarking purposes in specific sectors.
 
 
@@ -134,7 +134,7 @@ Method 5. Earnings Multiplier Method
 
   
 
-What does this mean to your business:
+Explanetion:
 The earnings multiplier method yields a valuation of $2,500,000, reflecting the business's profitability and earnings potential.   
 
    
@@ -147,8 +147,7 @@ Method 6. Liquidation Value
       1100000             1000000         100000        
   
 
-  
-What does this mean to your business: 
+Explanetion:
 The liquidation value is $150,000, representing the estimated proceeds if all assets were liquidated and liabilities paid. This is the minimum valuation in a worst-case scenario.
 
 
@@ -157,7 +156,7 @@ Method 7. Monte Carlo Simulation Results
    - Mid-Range Valuation: $1,444,155
    - High-Range Valuation: $1,844,155
 
-What does this mean to your business:  
+Explanetion: 
 The Monte Carlo simulation suggests that the business’s valuation could range between $1,444,155 and $1,844,155. This probabilistic model captures a spectrum of potential outcomes, factoring in uncertainties around future financial performance.  
 
    
@@ -199,12 +198,12 @@ Use this input data to display result:
   {Result_1}      {Result_2}         {Result_3}         {Result_Final}
 
 
-What does this mean to your business:  Provide a simple explanation in one line what it means to the given business.
+Explanetion:  Provide a simple explanation in one line what it means to the given business.
 
 2. Discounted Cash Flow (DCF): Provide a simple calculation and explain in one line what it means to the given business.
 Use this Input Data for calculation-- Discount Rate : {Discount_Rate}
 DO not display in tabular form.
-What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
+Explanetion: Provide a simple explanation in one line what it means to the given business.
 
 3. Comparable Company Analysis (CCA): Try to display for year and results in tabular format as shown in example.
  
@@ -218,7 +217,7 @@ PE_Ratio : {PE_Ratio}
     
     {Net_Profit_result_1}            {Net_Profit_result_2}            {Net_Profit_result_3}
  
-What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
+Explanetion: Provide a simple explanation in one line what it means to the given business.
 
 4. Rule of Thumb Methods:  This uses industry-specific revenue multipliers to estimate value.
 Try to display for year and results in tabular format as shown in example.
@@ -233,7 +232,7 @@ Industry_Multiplier: {Industry_Multiplier}
    
      {Gross_revenu_result_1}      {Gross_revenu_result_2}       {Gross_revenu_result_3}
 
-What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
+Explanetion: Provide a simple explanation in one line what it means to the given business.
 
 5. Earnings Multiplier:  Provide a simple calculation and explain in one line what it means to the given business.
 Try to display for year and results in tabular format as shown in example.
@@ -251,7 +250,7 @@ Earnings Multiplier: {Earnings_Multiplier}
     {Net_earning_result_1}   {Net_earning_result_2}  {Net_earning_result_3}
 
 
-What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
+Explanetion: Provide a simple explanation in one line what it means to the given business.
 
 6. Liquidation Value: Provide a simple calculation and explain in one line what it means to the given business.
 Try to display for year and results in tabular format as shown in example.
@@ -264,13 +263,13 @@ Make it should be in only One table
 
 
 
-What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
+Explanetion: Provide a simple explanation in one line what it means to the given business.
 
 7. Monte Carlo Simulation Results:
 Use this Input Data for calculation--
 List the Mid and High Range of monte carlo simulations. 
 
-What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
+Explanetion: Provide a simple explanation in one line what it means to the given business.
 
 
 Valuation Summary: Provide consice Valuation generated by Rule of thumb method and Earnings multiplier.
@@ -351,10 +350,12 @@ def blog_outline(temp,token,model,hf_key,t_k,t_p,
                  
                  ):
    df_dat = get_data_sql(f'{businessType}')
-   PE_Ratio = df_dat['Trailing_PE(PE_Ratio)']
-   Industry_Multiplier = df_dat['PBV(Industry_multiplier)']
-   Earnings_Multiplier = df_dat['EV/EBITDA(Earning_multiplier)']
-   print(PE_Ratio,Industry_Multiplier,Earnings_Multiplier)
+   print(df_dat)
+   Discount_Rate =float(df_dat[1].replace("%",""))
+   PE_Ratio =float(df_dat[2].replace("%",""))
+   Industry_Multiplier = float(df_dat[3].replace("%",""))
+   Earnings_Multiplier = float(df_dat[4].replace("%",""))
+   print(Discount_Rate,PE_Ratio,Industry_Multiplier,Earnings_Multiplier)
     # Instantiate LLM model
    Result_1,Result_2,Result_3,Result_Final = method_1(current_assets_financial_year,total_assets_financial_year,current_liabilities_financial_year,total_liabilities_financial_year)
    Net_Profit_Year,Net_Profit_result = method_3(revenues,expenses,PE_Ratio)
@@ -417,10 +418,10 @@ def blog_outline(temp,token,model,hf_key,t_k,t_p,
          "Liquidation_Value_3" : Liquidation_Value_3,
 
          
-        "Discount_Rate": df_dat['Cost_of_Capital(Discount_rate)'],
-        "PE_Ratio" : df_dat['Trailing_PE(PE_Ratio)'],
-        "Industry_Multiplier": df_dat['PBV(Industry_multiplier)'],
-        "Earnings_Multiplier" :df_dat['EV/EBITDA(Earning_multiplier)']
+        "Discount_Rate": Discount_Rate,
+        "PE_Ratio" : PE_Ratio,
+        "Industry_Multiplier": Industry_Multiplier,
+        "Earnings_Multiplier" :Earnings_Multiplier
     }
    llm = load_model(temp,token,model,HF_key=hf_key,top_k=t_k,top_p=t_p)
    promt= PromptTemplate.from_template(system_promt)
@@ -430,13 +431,17 @@ def blog_outline(temp,token,model,hf_key,t_k,t_p,
    return st.info(response)
 
 
-def get_data_sql(Industry_Name:str) -> pd.DataFrame:
+def get_data_sql( Industry_Name:str) -> pd.DataFrame:
     conn = sqlite3.connect('BEV_database.db')
-    query = 'SELECT * FROM BEV WHERE Industry_Name = ?'
-    df_from_db = pd.read_sql(sql=query,con= conn,params=(Industry_Name,))
-    conn.close()
+    cursor = conn.cursor()
+    query = f"SELECT * FROM BEV WHERE Industry_Name = '{Industry_Name}';"
+    cursor.execute(query )
+    result = cursor.fetchone()
 
-    return df_from_db
+    # df_from_db = pd.read_sql(sql=query,con= conn)
+    # conn.close()
+
+    return result
 
 
 
