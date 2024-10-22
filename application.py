@@ -40,13 +40,13 @@ START OF Business Estimation Value i.e. BEV CALCULATION--
 
 Valuation Methodologies Application:
 
-1. Method Asset-Based Valuation: 
-2. Discounted Cash Flow (DCF):
-3. Comparable Company Analysis (CCA): 
-4. Rule of Thumb Methods: Explanation: 
-5. Earnings Multiplier: Explanation:
-6. Liquidation Value: Explanation:
-7. Monte Carlo Simulations: 
+1. Method Asset-Based Valuation: display calculate values in tabular formate and explane the What does this mean.
+2. Discounted Cash Flow (DCF):  Explanation: Projects future cash flows and discounts them back to present value using a discount rate reflecting the risk-adjusted cost of capital. Example: Estimated Future Cash Flows for 5 years sum to $84,000 (assuming growth and discount rate), Discount Rate = 10%, DCF Valuation = $52,155.
+3. Comparable Company Analysis (CCA): display calculate values in tabular formate and explane the What does this mean.
+4. Rule of Thumb Methods:  display calculate values in tabular formate and explane the What does this mean.
+5. Earnings Multiplier: display calculate values in tabular formate and explane the What does this mean.
+6. Liquidation Value:display calculate values in tabular formate and explane the What does this mean.
+7. Monte Carlo Simulations: Use probabilistic models to simulate a range of possible outcomes based on the variability of input factors like cash flows, discount rates, and growth projections to provide a valuation range rather than a fixed figure. Calculate the Low , Mid and High Range of monte carlo simulations. Comments what Low, Mid and High ranges could means to the given business.
 
 END OF Business Estimation Value i.e. BEV CALCULATION--
 
@@ -78,7 +78,7 @@ Method 1. Asset-Based Valuation :
                1100000             1000000         100000         15000
 
 
-What does this mean to your business: He business has a net asset value of {currency}{Result_Final}, representing its liquidation value if all assets were sold and liabilities settled. This method primarily reflects the tangible asset base of the business.
+What does this mean to your business: He business has a net asset value of $15000, representing its liquidation value if all assets were sold and liabilities settled. This method primarily reflects the tangible asset base of the business.
 
 
 Method 2. Discounted Cash Flow (DCF)
@@ -190,7 +190,7 @@ Display all the points i.e. point # 1 to point # 7. , Valuation Summary, and Dis
 
 From the given financial inputs and using different valuation methods
 
-1. Asset-Based Valuation:  Provide a simple calculation and explain in one line what it means to the given business. 
+1. Asset-Based Valuation:   Try to display for year and results in tabular format as shown in example.
  
 Use this input data to display result:
 
@@ -198,14 +198,19 @@ Use this input data to display result:
 
   {Result_1}      {Result_2}         {Result_3}         {Result_Final}
 
-Explanation: Provide a simple explanation in one line what it means to the given business.
+
+What does this mean to your business:  Provide a simple explanation in one line what it means to the given business.
 
 2. Discounted Cash Flow (DCF): Provide a simple calculation and explain in one line what it means to the given business.
 Use this Input Data for calculation-- Discount Rate : {Discount_Rate}
-Explanation: Provide a simple explanation in one line what it means to the given business.
+DO not display in tabular form.
+What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
 
-3. Comparable Company Analysis (CCA): Provide a simple calculation and explain in one line what it means to the given business.
-Use this input data to display result:
+3. Comparable Company Analysis (CCA): Try to display for year and results in tabular format as shown in example.
+ 
+Use this input data to display result in tabular form:
+Make it should be in only One table.
+PE_Ratio : {PE_Ratio}
 
        {Year_1}                         {Year_2}                         {Year_3}                          
     
@@ -213,13 +218,14 @@ Use this input data to display result:
     
     {Net_Profit_result_1}            {Net_Profit_result_2}            {Net_Profit_result_3}
  
-Explanation: Provide a simple explanation in one line what it means to the given business.
+What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
 
-4. Rule of Thumb Methods:  This uses industry-specific revenue multipliers to estimate value.Provide a simple calculation and explain in one line what it means to the given business.
+4. Rule of Thumb Methods:  This uses industry-specific revenue multipliers to estimate value.
+Try to display for year and results in tabular format as shown in example.
+Use this input data to display result in tabular form:
+Make it should be in only One table.
+Industry_Multiplier: {Industry_Multiplier}
 
-Use this input data to display result:
-
-- Industry Multiplier: {Industry_Multiplier}
 
      {Year_1}                           {Year_2}                        {Year_3} 
    
@@ -227,13 +233,15 @@ Use this input data to display result:
    
      {Gross_revenu_result_1}      {Gross_revenu_result_2}       {Gross_revenu_result_3}
 
-Explanation: Provide a simple explanation in one line what it means to the given business.
+What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
 
 5. Earnings Multiplier:  Provide a simple calculation and explain in one line what it means to the given business.
+Try to display for year and results in tabular format as shown in example.
+Use this input data to display result in tabular form:
+Make it should be in only One table.
+Earnings Multiplier: {Earnings_Multiplier}
 
-Use this input data to display result:
 
- - Earnings Multiplier: {Earnings_Multiplier}
 
    
      {Year_1}                       {Year_2}               {Year_3} 
@@ -243,11 +251,12 @@ Use this input data to display result:
     {Net_earning_result_1}   {Net_earning_result_2}  {Net_earning_result_3}
 
 
-Explanation: Provide a simple explanation in one line what it means to the given business.
+What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
 
 6. Liquidation Value: Provide a simple calculation and explain in one line what it means to the given business.
-
-Use this input data to display result:
+Try to display for year and results in tabular format as shown in example.
+Use this input data to display result in tabular form:
+Make it should be in only One table
 
           {Year_1}                  {Year_2}               {Year_3}          
 
@@ -255,12 +264,13 @@ Use this input data to display result:
 
 
 
-Explanation: Provide a simple explanation in one line what it means to the given business.
+What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
 
 7. Monte Carlo Simulation Results:
 Use this Input Data for calculation--
 List the Mid and High Range of monte carlo simulations. 
-Explanation: Provide a simple explanation in one line what it means to the given business.
+
+What does this mean to your business: Provide a simple explanation in one line what it means to the given business.
 
 
 Valuation Summary: Provide consice Valuation generated by Rule of thumb method and Earnings multiplier.
@@ -272,8 +282,9 @@ The valuation summary shows the estimated business value using various valuation
 
 
 Do not display any other section.
+Use all currency notation from {currency}
 
-Try to display for year and results in tabular format as shown in example.
+
 
 
 
@@ -340,27 +351,35 @@ def blog_outline(temp,token,model,hf_key,t_k,t_p,
                  
                  ):
    df_dat = get_data_sql(f'{businessType}')
+   PE_Ratio = df_dat['Trailing_PE(PE_Ratio)']
+   Industry_Multiplier = df_dat['PBV(Industry_multiplier)']
+   Earnings_Multiplier = df_dat['EV/EBITDA(Earning_multiplier)']
+   print(PE_Ratio,Industry_Multiplier,Earnings_Multiplier)
     # Instantiate LLM model
    Result_1,Result_2,Result_3,Result_Final = method_1(current_assets_financial_year,total_assets_financial_year,current_liabilities_financial_year,total_liabilities_financial_year)
-   Net_Profit_Year,Net_Profit_result = method_3(revenues,expenses,df_dat['Trailing_PE(PE_Ratio)'])
+   Net_Profit_Year,Net_Profit_result = method_3(revenues,expenses,PE_Ratio)
+   print(f"Method 3 :{Net_Profit_Year,Net_Profit_result}")
    Net_Profit_Year_1 =Net_Profit_Year[0]
    Net_Profit_Year_2 =Net_Profit_Year[1]
    Net_Profit_Year_3 =Net_Profit_Year[2]
    Net_Profit_result_1 = Net_Profit_result[0]
    Net_Profit_result_2 = Net_Profit_result[1]
    Net_Profit_result_3 = Net_Profit_result[2]
-   Gross_revenu_result =method_4(revenues,df_dat['PBV(Industry_multiplier)'])
+   Gross_revenu_result =method_4(revenues,Industry_Multiplier)
+   print(f"Method 4 :{Gross_revenu_result}")
    Gross_revenu_Year_1 = revenues[0]
    Gross_revenu_Year_2 = revenues[1]
    Gross_revenu_Year_3 = revenues[2]
    Gross_revenu_result_1 = Gross_revenu_result[0]
    Gross_revenu_result_2 = Gross_revenu_result[1]
    Gross_revenu_result_3 = Gross_revenu_result[2]
-   Net_earning_result= method_5(revenues,expenses,df_dat['EV/EBITDA(Earning_multiplier)'])
+   Net_earning_result= method_5(revenues,expenses,Earnings_Multiplier)
+   print(f"Method 5 :{Net_earning_result}")
    Net_earning_result_1 = Net_earning_result[0]
    Net_earning_result_2 = Net_earning_result[1] 
    Net_earning_result_3 = Net_earning_result[2]  
    Liquidation_Value  = method_6(current_assets_financial_year,current_liabilities_financial_year)
+   print(f"Method 6 :{Liquidation_Value}")
    Liquidation_Value_1 = Liquidation_Value[0]
    Liquidation_Value_2 = Liquidation_Value[1]
    Liquidation_Value_3 = Liquidation_Value[2]
